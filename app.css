@@ -1,0 +1,147 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 0;
+}
+
+body {
+  color: #fff;
+  background: darkolivegreen;
+  /* background-image: linear-gradient(270deg, rgb(0, 60, 100), rgb(11, 82, 53)); */
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+  height: 100%;
+}
+
+#previous-screen {
+  color: lightblue;
+  text-align: right;
+  margin-top: 1.5rem;
+  padding: 0.2em 0.5em;
+  font-size: 1.75rem;
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+  border-right: 3px solid white;
+  min-height: calc(1.75rem + 0.7em);
+}
+
+#current-screen-result {
+  text-align: right;
+  margin-bottom: 1.5rem;
+  padding: 0.2em 0.3em;
+  font-size: 2.5rem;
+  min-height: calc(2.5rem + 0.7em);
+  border: 3px solid white;
+}
+
+.screen {
+  background-color: rgba(125, 140, 115, 1);
+  max-width: 21rem;
+  margin: auto;
+}
+
+.calc-btn {
+  min-height: 1.6em;
+  min-width: 1.6em;
+  border-radius: 0.8em;
+  font-size: 3rem;
+}
+.calc-btn:hover {
+  background-color: lightblue;
+}
+.calc-btn:active {
+  background-color: lightblue;
+  transform: scale(0.95);
+  transition: transform 0.15s;
+}
+
+#btn-7 {
+  grid-area: btn-7;
+}
+#btn-8 {
+  grid-area: btn-8;
+}
+#btn-9 {
+  grid-area: btn-9;
+}
+#btn-4 {
+  grid-area: btn-4;
+}
+#btn-5 {
+  grid-area: btn-5;
+}
+#btn-6 {
+  grid-area: btn-6;
+}
+#btn-1 {
+  grid-area: btn-1;
+}
+#btn-2 {
+  grid-area: btn-2;
+}
+#btn-3 {
+  grid-area: btn-3;
+}
+#btn-c {
+  grid-area: btn-c;
+  width: 3.4em;
+  border-radius: 0.8em;
+}
+#btn-equals {
+  grid-area: btn-equals;
+  width: 3.4em;
+  border-radius: 0.8em;
+  background-color: goldenrod;
+}
+#btn-times {
+  grid-area: btn-times;
+}
+#btn-plus {
+  grid-area: btn-plus;
+}
+#btn-minus {
+  grid-area: btn-minus;
+}
+#btn-obelus {
+  grid-area: btn-obelus;
+}
+#btn-0 {
+  grid-area: btn-0;
+}
+#btn-comma {
+  grid-area: btn-comma;
+}
+#btn-del {
+  grid-area: btn-del;
+}
+.operation-buttons {
+  background-color: darkkhaki;
+}
+
+.calc-container {
+  margin: 0 0.6em;
+}
+.btn-container {
+  justify-content: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  display: grid;
+  gap: 0.5em 0.3em;
+  grid-template-areas:
+    "btn-c btn-c btn-del btn-obelus"
+    "btn-7 btn-8 btn-9 btn-times"
+    "btn-4 btn-5 btn-6 btn-minus"
+    "btn-1 btn-2 btn-3 btn-plus"
+    "btn-comma btn-0 btn-equals btn-equals";
+}
+
+.tips {
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+  margin: 2em 0em 0 2em;
+  color: black;
+  font-size: 1rem;
+}
