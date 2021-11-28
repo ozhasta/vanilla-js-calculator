@@ -1,18 +1,18 @@
 const currentScreenResult = document.querySelector("#current-screen-result")
 const previousScreenResult = document.querySelector("#previous-screen-result")
 const previousScreenOperation = document.querySelector("#previous-screen-operation")
-const btns = document.querySelectorAll(".calc-btn")
+const btnContainer = document.querySelector(".btn-container")
 let currentOperation, previousOperation, result
 
 function operInit() {
+  // nokta(".") karakteri tek basina girdi olmasin
   if (currentScreenResult.innerText !== ".") {
-    // nokta(".") karakteri tek basina girdi olmasin
+    // ust ekran dolu ama alt ekran bos ise
     if (!currentScreenResult.innerText && previousScreenResult.innerText) {
-      // ust ekran dolu ama alt ekran bos ise
       previousOperation = currentOperation
       previousScreenOperation.innerText = currentOperation
-    } else {
       // alt ekran bos ise
+    } else {
       previousOperation = currentOperation
       previousScreenOperation.innerText = currentOperation
       previousScreenResult.innerText = currentScreenResult.innerText
@@ -29,7 +29,6 @@ function compute(num1, oper, num2) {
   // result = result.toLocaleString()
   currentScreenResult.innerText = result
 }
-//TODO: sonuc max 13 karakter
 
 function equals() {
   // sadece tum girdiler dolu ve gecerli ise hesaplama yapilsin
@@ -41,12 +40,13 @@ function equals() {
   return
 }
 
-// add event listener for clickable buttons
-btns.forEach((btn) => {
-  btn.addEventListener("click", () => {
+// add event listener to btn-container only
+btnContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("calc-btn")) {
+    const btn = e.target
     currentOperation = btn.dataset.operator
     handleInput()
-  })
+  }
 })
 
 // add event listener for keydown
@@ -97,13 +97,13 @@ function handleInput() {
       break
 
     default:
-      // default section is for numbers
+      // default section is only for numbers
       if (!isNaN(currentOperation)) {
         if (currentScreenResult.innerText === "0") {
           currentScreenResult.innerText = currentOperation
         } else {
           if (currentScreenResult.innerText.length === 12) {
-            return // dont work with more then 11 characters
+            return // max input length
           }
           currentScreenResult.innerText += currentOperation
         }
