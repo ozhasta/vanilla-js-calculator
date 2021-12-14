@@ -1,3 +1,4 @@
+"use strict"
 const currentScreenResult = document.querySelector("#current-screen-result")
 const previousScreenResult = document.querySelector("#previous-screen-result")
 const previousScreenOperation = document.querySelector("#previous-screen-operation")
