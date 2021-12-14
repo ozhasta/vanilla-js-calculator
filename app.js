@@ -43,8 +43,8 @@ function equals() {
 
 // add event listener to btn-container only
 btnContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("calc-btn")) {
-    const btn = e.target
+	const btn = e.target
+	if (btn.classList.contains("calc-btn")) {
     currentOperation = btn.dataset.operator
     handleInput()
   }
