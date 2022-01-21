@@ -6,13 +6,13 @@ const btnContainer = document.querySelector(".btn-container")
 let currentOperation, previousOperation, result
 
 function operInit() {
-  // nokta(".") karakteri tek basina girdi olmasin
+  // the dot(".") character should not be a stand-alone input
   if (currentScreenResult.innerText !== ".") {
-    // ust ekran dolu ama alt ekran bos ise
+    // the top screen is okay but if the bottom screen is blank
     if (!currentScreenResult.innerText && previousScreenResult.innerText) {
       previousOperation = currentOperation
       previousScreenOperation.innerText = currentOperation
-      // alt ekran bos ise
+      // if the bottom screen is blank
     } else {
       previousOperation = currentOperation
       previousScreenOperation.innerText = currentOperation
@@ -23,28 +23,43 @@ function operInit() {
 }
 
 function compute(num1, oper, num2) {
-  oper = previousOperation
-  // which is same as "return num1 + num2" or "return num1 - num2"
-  result = Function("return " + Number(num1) + oper + Number(num2))()
+  switch (oper) {
+    case "+":
+      result = num1 + num2
+      break
+    case "-":
+      result = num1 - num2
+      break
+    case "*":
+      result = num1 * num2
+      break
+    case "/":
+      result = num1 / num2
+      break
+  }
   result = parseFloat(result.toFixed(6))
-  // result = result.toLocaleString()
-  currentScreenResult.innerText = result
+  currentScreenResult.innerText = isNaN(result) ? "Invalid operation." : result
+  // if (isNaN(result)) {
+  //   previousOperation = null
+  //   currentOperation = null
+  //   console.log("calistim")
+  // }
 }
-
+// FIXME: After  "Invalid operation." we still can add inputs.
+// TODO: Think about if compute and equals functions better for combination in one function
 function equals() {
-  // sadece tum girdiler dolu ve gecerli ise hesaplama yapilsin
+  // calculate only if inputs not empty and not invalid
   if (currentScreenResult.innerText && previousScreenResult.innerText && previousOperation && currentScreenResult.innerText !== ".") {
     compute(Number(previousScreenResult.innerText), previousOperation, Number(currentScreenResult.innerText))
     previousScreenResult.innerText = ""
     previousScreenOperation.innerText = ""
   }
-  return
 }
 
-// add event listener to btn-container only
+// add event listener to btn-container only and check clicked element is actual button
 btnContainer.addEventListener("click", (e) => {
-	const btn = e.target
-	if (btn.classList.contains("calc-btn")) {
+  const btn = e.target
+  if (btn.classList.contains("calc-btn")) {
     currentOperation = btn.dataset.operator
     handleInput()
   }
@@ -86,27 +101,25 @@ function handleInput() {
 
     case "Backspace": // for keyboard
     case "←":
+      // TODO: dont delete invalid operation message and dont delete last chars
       currentScreenResult.innerText = currentScreenResult.innerText.substring(0, currentScreenResult.innerText.length - 1)
       break
 
     case ".": // for keyboard
     case ",":
-      if (currentScreenResult.innerText.includes(".")) {
-      } else {
+      if (!currentScreenResult.innerText.includes(".")) {
         currentScreenResult.innerText = currentScreenResult.innerText + "."
       }
       break
 
     default:
-      // default section is only for numbers
-      if (!isNaN(currentOperation)) {
+      // default section is only for number inputs
+      if (!isNaN(currentOperation) && currentScreenResult.innerText.length < 12 /* 12 is max input length */) {
         if (currentScreenResult.innerText === "0") {
           currentScreenResult.innerText = currentOperation
         } else {
-          if (currentScreenResult.innerText.length === 12) {
-            return // max input length
-          }
           currentScreenResult.innerText += currentOperation
+          // FIXME: After  "Invalid operation." we still can add inputs.
         }
       }
   }
