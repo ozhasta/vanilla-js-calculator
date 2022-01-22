@@ -3,64 +3,62 @@ const currentScreenResult = document.querySelector("#current-screen-result")
 const previousScreenResult = document.querySelector("#previous-screen-result")
 const previousScreenOperation = document.querySelector("#previous-screen-operation")
 const btnContainer = document.querySelector(".btn-container")
-let currentOperation, previousOperation, result
+let currentInput, previousInput, result
 
 function operInit() {
   // the dot(".") character should not be a stand-alone input
   if (currentScreenResult.innerText !== ".") {
     // the top screen is okay but if the bottom screen is blank
     if (!currentScreenResult.innerText && previousScreenResult.innerText) {
-      previousOperation = currentOperation
-      previousScreenOperation.innerText = currentOperation
+      previousInput = currentInput
+      previousScreenOperation.innerText = currentInput
       // if the bottom screen is blank
     } else {
-      previousOperation = currentOperation
-      previousScreenOperation.innerText = currentOperation
+      previousInput = currentInput
+      previousScreenOperation.innerText = currentInput
       previousScreenResult.innerText = currentScreenResult.innerText
       currentScreenResult.innerText = ""
     }
   }
 }
 
-function compute(num1, oper, num2) {
-  switch (oper) {
-    case "+":
-      result = num1 + num2
-      break
-    case "-":
-      result = num1 - num2
-      break
-    case "*":
-      result = num1 * num2
-      break
-    case "/":
-      result = num1 / num2
-      break
+function equals() {
+  if (previousScreenResult.innerText && currentScreenResult.innerText && previousInput && currentScreenResult.innerText !== ".") {
+    // num1 or num2 can be 0 (falsy) so don't declare them above if statement
+    let num1 = Number(previousScreenResult.innerText)
+    let num2 = Number(currentScreenResult.innerText)
+    switch (previousInput) {
+      case "+":
+        result = num1 + num2
+        break
+      case "-":
+        result = num1 - num2
+        break
+      case "*":
+        result = num1 * num2
+        break
+      case "/":
+        result = num1 / num2
+        break
+    }
+    result = parseFloat(result.toFixed(6))
+    currentScreenResult.innerText = isNaN(result) ? "Invalid operation." : result
+    previousScreenResult.innerText = ""
+    previousScreenOperation.innerText = ""
   }
-  result = parseFloat(result.toFixed(6))
-  currentScreenResult.innerText = isNaN(result) ? "Invalid operation." : result
   // if (isNaN(result)) {
-  //   previousOperation = null
-  //   currentOperation = null
+  //   previousInput = null
+  //   currentInput = null
   //   console.log("calistim")
   // }
 }
 // FIXME: After  "Invalid operation." we still can add inputs.
-// TODO: Think about if compute and equals functions better for combination in one function
-function equals() {
-  // calculate only if inputs not empty and not invalid
-  if (currentScreenResult.innerText && previousScreenResult.innerText && previousOperation && currentScreenResult.innerText !== ".") {
-    compute(Number(previousScreenResult.innerText), previousOperation, Number(currentScreenResult.innerText))
-    previousScreenResult.innerText = ""
-    previousScreenOperation.innerText = ""
-  }
-}
 
 // add event listener to btn-container only and check clicked element is actual button
 btnContainer.addEventListener("click", (e) => {
   const btn = e.target
   if (btn.classList.contains("calc-btn")) {
-    currentOperation = btn.dataset.operator
+    currentInput = btn.dataset.operator
     handleInput()
   }
 })
@@ -69,14 +67,14 @@ btnContainer.addEventListener("click", (e) => {
 document.addEventListener(
   "keydown",
   (e) => {
-    currentOperation = e.key
+    currentInput = e.key
     handleInput()
   },
   false
 )
 
 function handleInput() {
-  switch (currentOperation) {
+  switch (currentInput) {
     case "/":
     case "*":
     case "-":
@@ -92,8 +90,8 @@ function handleInput() {
 
     case "Delete": // for keyboard
     case "C":
-      previousOperation = null
-      currentOperation = null
+      previousInput = null
+      currentInput = null
       currentScreenResult.innerText = 0
       previousScreenResult.innerText = ""
       previousScreenOperation.innerText = ""
@@ -114,11 +112,11 @@ function handleInput() {
 
     default:
       // default section is only for number inputs
-      if (!isNaN(currentOperation) && currentScreenResult.innerText.length < 12 /* 12 is max input length */) {
+      if (!isNaN(currentInput) && currentScreenResult.innerText.length < 12 /* 12 is max input length */) {
         if (currentScreenResult.innerText === "0") {
-          currentScreenResult.innerText = currentOperation
+          currentScreenResult.innerText = currentInput
         } else {
-          currentScreenResult.innerText += currentOperation
+          currentScreenResult.innerText += currentInput
           // FIXME: After  "Invalid operation." we still can add inputs.
         }
       }
