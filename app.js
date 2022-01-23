@@ -1,59 +1,11 @@
 "use strict"
-const currentScreenResult = document.querySelector("#current-screen-result")
-const previousScreenResult = document.querySelector("#previous-screen-result")
-const previousScreenOperation = document.querySelector("#previous-screen-operation")
+const currentScreenEl = document.querySelector("#current-screen")
+const previousScreenEl = document.querySelector("#previous-screen")
+const previousScreenOperandEl = document.querySelector("#previous-screen-operand")
 const btnContainer = document.querySelector(".btn-container")
 let currentInput, previousInput, result, invalidOperation
 
-function operInit() {
-  // the dot(".") character should not be a stand-alone input
-  if (currentScreenResult.innerText !== ".") {
-    // the top screen is okay but if the bottom screen is blank
-    if (!currentScreenResult.innerText && previousScreenResult.innerText) {
-      previousInput = currentInput
-      previousScreenOperation.innerText = currentInput
-      // if the bottom screen is blank
-    } else {
-      previousInput = currentInput
-      previousScreenOperation.innerText = currentInput
-      previousScreenResult.innerText = currentScreenResult.innerText
-      currentScreenResult.innerText = ""
-    }
-  }
-}
-
-function equals() {
-  if (previousScreenResult.innerText && currentScreenResult.innerText && previousInput && currentScreenResult.innerText !== ".") {
-    // num1 or num2 can be 0 (falsy) so don't declare them above if statement
-    let num1 = Number(previousScreenResult.innerText)
-    let num2 = Number(currentScreenResult.innerText)
-    switch (previousInput) {
-      case "+":
-        result = num1 + num2
-        break
-      case "-":
-        result = num1 - num2
-        break
-      case "*":
-        result = num1 * num2
-        break
-      case "/":
-        result = num1 / num2
-        break
-    }
-    result = parseFloat(result.toFixed(6))
-    if (isNaN(result)) {
-      currentScreenResult.innerText = "Invalid operation"
-      invalidOperation = true
-    } else {
-      currentScreenResult.innerText = result
-    }
-    previousScreenResult.innerText = ""
-    previousScreenOperation.innerText = ""
-  }
-}
-
-// add event listener to btn-container only and check clicked element is actual button
+// add event listener to btn-container only and check if clicked element is a button
 btnContainer.addEventListener("click", (e) => {
   const btn = e.target
   if (btn.classList.contains("calc-btn")) {
@@ -62,7 +14,7 @@ btnContainer.addEventListener("click", (e) => {
   }
 })
 
-// add event listener for keydown
+// add event listener for keyboard
 document.addEventListener(
   "keydown",
   (e) => {
@@ -73,14 +25,16 @@ document.addEventListener(
 )
 
 function handleInput() {
-  invalidOperation ? (currentInput = "C") : (currentInput = currentInput)
+  currentInput = currentInput === "*" ? "x" : currentInput
+  currentInput = currentInput === "/" ? "÷" : currentInput
+  currentInput = invalidOperation ? "Delete" : currentInput
   switch (currentInput) {
-    case "/":
-    case "*":
+    case "x":
+    case "÷":
     case "-":
     case "+":
       equals()
-      operInit()
+      chainOperation()
       break
 
     case "Enter": // for keyboard
@@ -88,39 +42,86 @@ function handleInput() {
       equals()
       break
 
+    case "Escape": // for keyboard
     case "Delete": // for keyboard
-    case "C":
       previousInput = null
       currentInput = null
       invalidOperation = false
-      currentScreenResult.innerText = 0
-      previousScreenResult.innerText = ""
-      previousScreenOperation.innerText = ""
+      currentScreenEl.innerText = 0
+      previousScreenEl.innerText = ""
+      previousScreenOperandEl.innerText = ""
       break
 
     case "Backspace": // for keyboard
-    case "←":
-      currentScreenResult.innerText = currentScreenResult.innerText.substring(0, currentScreenResult.innerText.length - 1)
-      if (currentScreenResult.innerText.length === 0) {
-        currentScreenResult.innerText = 0
+      currentScreenEl.innerText = currentScreenEl.innerText.substring(0, currentScreenEl.innerText.length - 1)
+      if (currentScreenEl.innerText.length === 0) {
+        currentScreenEl.innerText = 0
       }
       break
 
     case ".": // for keyboard
     case ",":
-      if (!currentScreenResult.innerText.includes(".")) {
-        currentScreenResult.innerText = currentScreenResult.innerText + "."
+      if (!currentScreenEl.innerText.includes(".")) {
+        currentScreenEl.innerText = currentScreenEl.innerText + "."
       }
       break
 
     default:
       // default section is only for number inputs
-      if (!isNaN(currentInput) && currentScreenResult.innerText.length < 12 /* 12 is max input length */) {
-        if (currentScreenResult.innerText === "0") {
-          currentScreenResult.innerText = currentInput
+      if (!isNaN(currentInput) && currentScreenEl.innerText.length < 12 /* 12 is max input length */) {
+        if (currentScreenEl.innerText === "0") {
+          currentScreenEl.innerText = currentInput
         } else {
-          currentScreenResult.innerText += currentInput
+          currentScreenEl.innerText += currentInput
         }
       }
+  }
+}
+
+function equals() {
+  if (previousScreenEl.innerText && currentScreenEl.innerText && previousInput && currentScreenEl.innerText !== ".") {
+    // num1 or num2 can be 0 (falsy) so don't use them inside if statement
+    let num1 = Number(previousScreenEl.innerText)
+    let num2 = Number(currentScreenEl.innerText)
+    switch (previousInput) {
+      case "+":
+        result = num1 + num2
+        break
+      case "-":
+        result = num1 - num2
+        break
+      case "x":
+        result = num1 * num2
+        break
+      case "÷":
+        result = num1 / num2
+        break
+    }
+    result = parseFloat(result.toFixed(8))
+    if (isNaN(result)) {
+      currentScreenEl.innerText = "Invalid operation"
+      invalidOperation = true
+    } else {
+      currentScreenEl.innerText = result
+    }
+    previousScreenEl.innerText = ""
+    previousScreenOperandEl.innerText = ""
+  }
+}
+
+function chainOperation() {
+  // the dot(".") character should not be a stand-alone input
+  if (currentScreenEl.innerText !== ".") {
+    // the top screen is okay but if the bottom screen is empty
+    if (!currentScreenEl.innerText && previousScreenEl.innerText) {
+      previousInput = currentInput
+      previousScreenOperandEl.innerText = currentInput
+      // if the bottom screen is empty
+    } else if (!invalidOperation) {
+      previousInput = currentInput
+      previousScreenOperandEl.innerText = currentInput
+      previousScreenEl.innerText = currentScreenEl.innerText
+      currentScreenEl.innerText = ""
+    }
   }
 }

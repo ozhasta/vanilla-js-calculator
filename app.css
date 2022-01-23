@@ -14,37 +14,37 @@ html {
 body {
   color: #fff;
   background: darkolivegreen;
-  /* background-image: linear-gradient(270deg, rgb(0, 60, 100), rgb(11, 82, 53)); */
+  background: linear-gradient(270deg, rgb(0, 60, 100), rgb(11, 82, 53));
   font-family: Arial, Helvetica, sans-serif;
   font-size: 2rem;
   height: 100%;
   user-select: none;
+  padding: 1rem;
 }
 
-#previous-screen {
-  color: lightblue;
+#previous-screen-container {
   text-align: right;
-  margin-top: 1.5rem;
-  padding: 0.2em 0.5em;
-  font-size: 1.7rem;
   border-top: 3px solid #fff;
   border-left: 3px solid #fff;
   border-right: 3px solid #fff;
-  min-height: calc(1.7rem + 0.8em);
+  font-size: 2.5rem;
+
+  padding: 0.1em 0.3em;
+  min-height: calc(2.5rem + 0.5em);
 }
 
-#current-screen-result {
+#current-screen {
   text-align: right;
-  margin-bottom: 1.5rem;
-  padding: 0.2em 0.3em;
-  font-size: 2.4rem;
-  min-height: calc(2.4rem + 0.8em);
   border: 3px solid #fff;
+  margin-bottom: 0.5em;
+  font-size: 2.5rem;
+
+  padding: 0.1em 0.3em;
+  min-height: calc(2.5rem + 0.5em);
 }
 
 .screen {
   background-color: rgba(125, 140, 115);
-  max-width: 21rem;
   margin: auto;
 }
 
@@ -111,23 +111,27 @@ body {
 #btn-comma {
   grid-area: btn-comma;
 }
-#btn-del {
-  grid-area: btn-del;
+#btn-backspace {
+  grid-area: btn-backspace;
 }
 .operation-buttons {
   background-color: darkkhaki;
 }
 
 .calc-container {
-  margin: 0 0.6em;
+  padding: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: min-content;
+  border: 2px solid;
 }
 .btn-container {
   justify-content: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: grid;
-  gap: 0.5em 0.3em;
+  gap: 0.25em;
   grid-template-areas:
-    "btn-c btn-c btn-del btn-obelus"
+    "btn-c btn-c btn-backspace btn-obelus"
     "btn-7 btn-8 btn-9 btn-times"
     "btn-4 btn-5 btn-6 btn-minus"
     "btn-1 btn-2 btn-3 btn-plus"
@@ -145,8 +149,7 @@ body {
 .tips {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
-  margin: 1.5em 0 0 0;
-  color: black;
+  margin: 1em 0 0 0;
   font-size: 1rem;
 }
 
@@ -154,10 +157,10 @@ body {
   html {
     font-size: 14px;
   }
-  #current-screen-result {
-    font-size: 2rem;
+  #current-screen {
+    font-size: 1.8rem;
   }
-  #previous-screen-result {
-    font-size: 1.4rem;
+  #previous-screen {
+    font-size: 1.8rem;
   }
 }
