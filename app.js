@@ -3,7 +3,7 @@ const currentScreenResult = document.querySelector("#current-screen-result")
 const previousScreenResult = document.querySelector("#previous-screen-result")
 const previousScreenOperation = document.querySelector("#previous-screen-operation")
 const btnContainer = document.querySelector(".btn-container")
-let currentInput, previousInput, result
+let currentInput, previousInput, result, invalidOperation
 
 function operInit() {
   // the dot(".") character should not be a stand-alone input
@@ -42,17 +42,16 @@ function equals() {
         break
     }
     result = parseFloat(result.toFixed(6))
-    currentScreenResult.innerText = isNaN(result) ? "Invalid operation." : result
+    if (isNaN(result)) {
+      currentScreenResult.innerText = "Invalid operation"
+      invalidOperation = true
+    } else {
+      currentScreenResult.innerText = result
+    }
     previousScreenResult.innerText = ""
     previousScreenOperation.innerText = ""
   }
-  // if (isNaN(result)) {
-  //   previousInput = null
-  //   currentInput = null
-  //   console.log("calistim")
-  // }
 }
-// FIXME: After  "Invalid operation." we still can add inputs.
 
 // add event listener to btn-container only and check clicked element is actual button
 btnContainer.addEventListener("click", (e) => {
@@ -74,6 +73,7 @@ document.addEventListener(
 )
 
 function handleInput() {
+  invalidOperation ? (currentInput = "C") : (currentInput = currentInput)
   switch (currentInput) {
     case "/":
     case "*":
@@ -92,6 +92,7 @@ function handleInput() {
     case "C":
       previousInput = null
       currentInput = null
+      invalidOperation = false
       currentScreenResult.innerText = 0
       previousScreenResult.innerText = ""
       previousScreenOperation.innerText = ""
@@ -99,8 +100,10 @@ function handleInput() {
 
     case "Backspace": // for keyboard
     case "←":
-      // TODO: dont delete invalid operation message and dont delete last chars
       currentScreenResult.innerText = currentScreenResult.innerText.substring(0, currentScreenResult.innerText.length - 1)
+      if (currentScreenResult.innerText.length === 0) {
+        currentScreenResult.innerText = 0
+      }
       break
 
     case ".": // for keyboard
@@ -117,7 +120,6 @@ function handleInput() {
           currentScreenResult.innerText = currentInput
         } else {
           currentScreenResult.innerText += currentInput
-          // FIXME: After  "Invalid operation." we still can add inputs.
         }
       }
   }
