@@ -13,7 +13,7 @@ html {
 
 body {
   color: #fff;
-  background: darkolivegreen;
+  background: rgb(0, 60, 100);
   background: linear-gradient(270deg, rgb(0, 60, 100), rgb(11, 82, 53));
   font-family: Arial, Helvetica, sans-serif;
   font-size: 2rem;
