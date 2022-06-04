@@ -78,14 +78,9 @@ function handleInput() {
   }
 }
 
-// todo simplyfy this if stetement look for ?? ?. operator
 function equals() {
-  if (
-    previousScreenEl.innerText &&
-    currentScreenEl.innerText &&
-    previousInput &&
-    currentScreenEl.innerText !== "."
-  ) {
+  let validForOperation = previousScreenEl.innerText && currentScreenEl.innerText && previousInput
+  if (validForOperation) {
     // num1 or num2 can be 0 (falsy) so don't use them inside if statement
     let num1 = parseFloat(previousScreenEl.innerText)
     let num2 = parseFloat(currentScreenEl.innerText)
@@ -104,7 +99,8 @@ function equals() {
         result = num1 / num2
         break
     }
-    result = parseFloat(result.toFixed(8))
+    // decimal length
+    result = parseFloat(result.toFixed(7))
     if (isNaN(result)) {
       currentScreenEl.innerText = "Invalid operation"
       invalidOperation = true
