@@ -1,5 +1,5 @@
 
-# Calculator
+# Vanilla JS Calculator
 
 > Don't count your fingers, use this calculator instead :)
 
