@@ -11,7 +11,7 @@
 
 ## Live Demo
 
-Live demo here: :arrow_right: [Vanilla JS Calculator](https://calc-project-react.netlify.app/)
+Live demo here: :arrow_right: [Vanilla JS Calculator](https://calc-project-vanilla-js.netlify.app/)
 
 ## Description
 Written in vanilla JavaScript, HTML, CSS. 
