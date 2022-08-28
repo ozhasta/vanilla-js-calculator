@@ -3,6 +3,7 @@ const currentScreenEl = document.querySelector("#current-screen")
 const previousScreenEl = document.querySelector("#previous-screen")
 const previousScreenOperandEl = document.querySelector("#previous-screen-operand")
 const btnContainer = document.querySelector(".btn-container")
+let isEqualsLastOperation = false
 let currentInput, previousInput, invalidOperation
 
 // add event listener to btn-container only and check if clicked element is a button
@@ -57,6 +58,7 @@ function handleInput() {
         0,
         currentScreenEl.innerText.length - 1
       )
+
       if (currentScreenEl.innerText.length === 0) currentScreenEl.innerText = 0
       break
 
@@ -68,17 +70,26 @@ function handleInput() {
       break
 
     default:
-      // default section is only for number inputs / 12 is max input length
-      if (isNaN(currentInput) || currentScreenEl.innerText.length >= 12) return
+      // default section is only for number inputs / 10 is max input length
+      if (isNaN(currentInput) || currentScreenEl.innerText.length >= 10) return
+
       if (currentScreenEl.innerText === "0") {
         currentScreenEl.innerText = currentInput
         return
       }
-      currentScreenEl.innerText += currentInput
+
+      if (isEqualsLastOperation) {
+        // after result, clear screen before adding new characters
+        currentScreenEl.innerText = currentInput
+        isEqualsLastOperation = false
+      } else {
+        currentScreenEl.innerText += currentInput
+      }
   }
 }
 
 function equals() {
+  isEqualsLastOperation = true
   let validForOperation = previousScreenEl.innerText && currentScreenEl.innerText && previousInput
   if (validForOperation) {
     // num1 or num2 can be 0 (falsy) so don't use them inside if statement
@@ -89,30 +100,35 @@ function equals() {
       case "+":
         result = num1 + num2
         break
+
       case "-":
         result = num1 - num2
         break
+
       case "x":
         result = num1 * num2
         break
+
       case "÷":
         result = num1 / num2
         break
     }
     // decimal length
-    result = parseFloat(result.toFixed(7))
+    result = parseFloat(result.toFixed(6))
     if (isNaN(result)) {
       currentScreenEl.innerText = "Invalid operation"
       invalidOperation = true
     } else {
       currentScreenEl.innerText = result
     }
+
     previousScreenEl.innerText = ""
     previousScreenOperandEl.innerText = ""
   }
 }
 
 function chainOperation() {
+  isEqualsLastOperation = false
   // the dot(".") character shouldn't be a stand-alone input
   if (currentScreenEl.innerText === ".") return
 
