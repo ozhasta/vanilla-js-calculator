@@ -5,7 +5,7 @@
 
 ---
 
-![JS Calculator](/screenshot.jpg?raw=true)
+![JS Calculator](screenshot.jpg?raw=true)
 
 ---
 
