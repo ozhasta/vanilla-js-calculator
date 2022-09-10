@@ -20,6 +20,6 @@ You can chain multiple calculations like: 30 + 12 * 3 - 1, also It's working wit
 There is functionality to use it with a keyboard or mouse (in mobile touching).
 
 I also ported this project to React.
-If you want to see React.js version of this project, [click here](https://github.com/b0tm0de/react-calculator)
+If you want to see React.js version of this project, [click here](https://github.com/ozhasta/react-calculator)
 
 ---
