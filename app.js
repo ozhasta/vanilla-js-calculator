@@ -15,7 +15,7 @@ btnContainer.addEventListener("click", (e) => {
   }
 })
 
-// add event listener for keyboard
+// for keyboard support
 document.addEventListener(
   "keydown",
   (e) => {
